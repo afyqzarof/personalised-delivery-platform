@@ -1,4 +1,5 @@
 import { Cat, PouchSize } from '../users/user.types';
+import { NextDeliveryDto } from './comms.dto';
 
 // Pence (integers) so totals sum exactly and convert to pounds only once.
 export const POUCH_PRICE_PENCE: Record<PouchSize, number> = {
@@ -41,4 +42,14 @@ export function buildTitle(catNames: string): string {
 
 export function buildMessage(firstName: string, catNames: string): string {
   return `Hey ${firstName}! In two days' time, we'll be charging you for your next order for ${catNames}'s fresh food.`;
+}
+
+/** Payload for a user whose cats all have inactive subscriptions. */
+export function buildNoDelivery(firstName: string): NextDeliveryDto {
+  return {
+    title: 'No delivery scheduled',
+    message: `Hey ${firstName}! You don't have any active subscriptions, so there's no delivery on the way. Reactivate a subscription to start loving fresh again.`,
+    totalPrice: 0,
+    freeGift: false,
+  };
 }
