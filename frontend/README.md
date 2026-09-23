@@ -6,8 +6,8 @@ React 19 + TypeScript + Vite app that renders a customer's next delivery card at
 ## Getting started
 
 ```bash
-npm install
-npm run dev
+yarn install
+yarn dev
 ```
 
 Then open the printed URL and visit **`/welcome/:userId`**, e.g.
@@ -43,12 +43,12 @@ previewing the error UI.
 
 | Command | Description |
 | --- | --- |
-| `npm run dev` | Start the dev server (HMR). |
-| `npm run build` | Type-check and build for production. |
-| `npm run preview` | Preview the production build. |
-| `npm run lint` | Run ESLint. |
-| `npm test` | Run the Vitest unit tests once. |
-| `npm run test:watch` | Run Vitest in watch mode. |
+| `yarn dev` | Start the dev server (HMR). |
+| `yarn build` | Type-check and build for production. |
+| `yarn preview` | Preview the production build. |
+| `yarn lint` | Run ESLint. |
+| `yarn test` | Run the Vitest unit tests once. |
+| `yarn test:watch` | Run Vitest in watch mode. |
 
 ## Structure
 
