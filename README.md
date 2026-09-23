@@ -121,10 +121,6 @@ Given the scope this was deliberately kept simple. With more time:
   (or generate it from an OpenAPI spec) so the frontend and backend can't drift.
 - **Config-driven pricing** — move pouch prices and the free-gift threshold into
   configuration rather than constants in code.
-- **E2E coverage** — a Playwright test that loads `/welcome/:userId` against a
-  running backend and asserts the rendered card.
-- **Observability** — structured logging, request tracing, and a `/health`
-  endpoint for deployment.
 - **Containerisation** — a `docker-compose` to run both services together.
 
 ## A note on AI usage
