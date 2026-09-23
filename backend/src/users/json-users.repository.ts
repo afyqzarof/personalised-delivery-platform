@@ -4,7 +4,6 @@ import { join } from 'path';
 import { User } from './user.types';
 import { UsersRepository } from './users.repository';
 
-// Parses data.json once at startup and indexes by id for O(1) lookups.
 @Injectable()
 export class JsonUsersRepository implements UsersRepository {
   private readonly usersById: Map<string, User>;

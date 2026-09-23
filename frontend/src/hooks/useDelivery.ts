@@ -1,11 +1,9 @@
-import { useQuery } from '@tanstack/react-query'
-import { ApiError, fetchDelivery } from '../api/client'
+import { useQuery, type UseQueryResult } from '@tanstack/react-query'
+import { ApiError } from '../api/errors'
 import type { DeliveryResponse } from '../types/delivery'
 
-export type DeliveryState =
-  | { status: 'loading'; data: null; error: null }
-  | { status: 'success'; data: DeliveryResponse; error: null }
-  | { status: 'error'; data: null; error: ApiError }
+const DEFAULT_BASE_URL = 'http://localhost:3000'
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? DEFAULT_BASE_URL
 
 /** Don't retry client errors (bad uuid / unknown user) — only transient ones. */
 function shouldRetry(failureCount: number, error: ApiError): boolean {
@@ -14,33 +12,44 @@ function shouldRetry(failureCount: number, error: ApiError): boolean {
 }
 
 /**
- * Fetch the next delivery for a user via TanStack Query, normalised into an
- * explicit state machine. Caching, request dedup, cancellation and retries are
- * handled by the query client; a missing userId maps to a 400 error state.
+ * Fetch the next delivery for a user. TanStack Query owns caching, dedup,
+ * cancellation, retries and the loading/error/success state, so we return its
+ * result directly.
+ *
+ * The queryFn throws ApiError on a non-2xx response — that throw is what
+ * surfaces HTTP errors as the query's error state, since `fetch` itself
+ * resolves (doesn't reject) on 4xx/5xx.
  */
-export function useDelivery(userId: string | undefined): DeliveryState {
-  const query = useQuery<DeliveryResponse, ApiError>({
+export function useDelivery(
+  userId: string | undefined,
+): UseQueryResult<DeliveryResponse, ApiError> {
+  return useQuery({
     queryKey: ['delivery', userId],
-    queryFn: ({ signal }) => fetchDelivery(userId as string, signal),
+    queryFn: async ({ signal }): Promise<DeliveryResponse> => {
+      const id = userId as string
+
+      let response: Response
+      try {
+        response = await fetch(
+          `${API_BASE_URL}/comms/your-next-delivery/${encodeURIComponent(id)}`,
+          { signal, headers: { Accept: 'application/json' } },
+        )
+      } catch (cause) {
+        // Network failure, CORS, DNS, etc. Re-throw aborts so TanStack ignores them.
+        if (cause instanceof DOMException && cause.name === 'AbortError') throw cause
+        throw new ApiError(0, 'Unable to reach the server. Is the backend running?')
+      }
+
+      if (!response.ok) {
+        throw new ApiError(
+          response.status,
+          `Request failed with status ${response.status}`,
+        )
+      }
+
+      return (await response.json()) as DeliveryResponse
+    },
     enabled: Boolean(userId),
     retry: shouldRetry,
   })
-
-  if (!userId) {
-    return {
-      status: 'error',
-      data: null,
-      error: new ApiError(400, 'No user id was provided.'),
-    }
-  }
-
-  if (query.status === 'success') {
-    return { status: 'success', data: query.data, error: null }
-  }
-
-  if (query.status === 'error') {
-    return { status: 'error', data: null, error: query.error }
-  }
-
-  return { status: 'loading', data: null, error: null }
 }

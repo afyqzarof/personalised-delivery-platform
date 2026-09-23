@@ -2,7 +2,6 @@ import { useParams } from "react-router-dom";
 import { DeliveryCard } from "../components/DeliveryCard";
 import { useDelivery } from "../hooks/useDelivery";
 
-/** Maps an API error status to friendly user-facing copy. */
 function errorCopy(status: number): string {
   switch (status) {
     case 404:
@@ -16,11 +15,16 @@ function errorCopy(status: number): string {
 
 export function WelcomePage() {
   const { userId } = useParams<{ userId: string }>();
-  const state = useDelivery(userId);
+  const query = useDelivery(userId);
+
+  // A missing userId never reaches the backend (the query stays disabled), so
+  // treat it as a bad link — same 400 the API returns for a malformed id.
+  const showError = !userId || query.isError;
+  const errorStatus = query.error?.status ?? 400;
 
   return (
     <main className="flex min-h-svh items-center justify-center p-6">
-      {state.status === "loading" && (
+      {userId && query.isPending && (
         <div
           className="flex flex-col items-center gap-3 text-center text-card-text"
           role="status"
@@ -34,19 +38,19 @@ export function WelcomePage() {
         </div>
       )}
 
-      {state.status === "error" && (
+      {showError && (
         <div
           className="flex flex-col items-center gap-3 text-center text-card-text"
           role="alert"
         >
           <p className="text-xl font-bold text-primary">
-            {errorCopy(state.error.status)}
+            {errorCopy(errorStatus)}
           </p>
           <p className="text-sm">Please check the link or try again later.</p>
         </div>
       )}
 
-      {state.status === "success" && <DeliveryCard delivery={state.data} />}
+      {query.isSuccess && <DeliveryCard delivery={query.data} />}
     </main>
   );
 }

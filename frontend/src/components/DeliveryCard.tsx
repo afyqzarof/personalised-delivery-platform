@@ -8,11 +8,7 @@ interface DeliveryCardProps {
 const buttonBase =
   "rounded-md border-2 border-primary px-6 py-3 text-sm font-bold uppercase tracking-wider cursor-pointer";
 
-/**
- * Presentational card for a user's next delivery. Purely driven by props —
- * it does no fetching. The two buttons are non-functional placeholders per
- * the design brief.
- */
+/** The two buttons are non-functional placeholders per the design brief. */
 export function DeliveryCard({ delivery }: DeliveryCardProps) {
   const { title, message, totalPrice, freeGift } = delivery;
 
