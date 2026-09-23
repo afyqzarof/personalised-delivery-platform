@@ -26,9 +26,6 @@ export class CommsService {
 
     const activeCats = user.cats.filter((cat) => cat.subscriptionActive);
 
-    // The brief doesn't cover users with no active subscription (none exist in
-    // data.json), but the delivery copy assumes at least one cat. Return a
-    // coherent "nothing scheduled" payload instead of "...for 's fresh food.".
     if (activeCats.length === 0) {
       return buildNoDelivery(user.firstName);
     }
