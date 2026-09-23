@@ -6,7 +6,7 @@ interface DeliveryCardProps {
 }
 
 const buttonBase =
-  "rounded-md border-2 border-primary px-6 py-3 text-[13px] font-bold uppercase tracking-wider cursor-pointer";
+  "rounded-md border-2 border-primary px-6 py-3 text-sm font-bold uppercase tracking-wider cursor-pointer";
 
 /**
  * Presentational card for a user's next delivery. Purely driven by props —
@@ -17,20 +17,20 @@ export function DeliveryCard({ delivery }: DeliveryCardProps) {
   const { title, message, totalPrice, freeGift } = delivery;
 
   return (
-    <article className="mx-auto flex w-full max-w-190 flex-col overflow-hidden rounded-xl bg-white text-left shadow-[0_8px_24px_rgba(0,0,0,0.08)] md:max-w-225 md:flex-row">
+    <article className="mx-auto flex w-full max-w-190 flex-col overflow-hidden rounded-xl bg-white text-left  border border-solid border-gray-700 md:max-w-225 md:flex-row">
       <img
-        className="block h-55 w-full object-cover object-center md:h-auto md:w-[45%] md:self-stretch"
+        className="block h-55 w-full object-cover object-center md:h-auto md:w-2/5 md:self-stretch"
         src="https://cataas.com/cat?width=1000&height=1000"
         alt="Your cat's food delivery"
       />
 
       <div className="flex flex-1 flex-col justify-center gap-4 p-6 md:p-8">
-        <h1 className="text-[22px] font-bold leading-tight text-primary md:text-2xl">
+        <h1 className="text-xl font-bold leading-tight text-primary md:text-2xl">
           {title}
         </h1>
-        <p className="text-[15px] leading-relaxed text-card-text">{message}</p>
+        <p className="text-sm leading-relaxed text-card-text">{message}</p>
 
-        <p className="text-[15px] text-card-text">
+        <p className="text-sm text-card-text">
           <span className="font-bold">Total price:</span>{" "}
           {formatGbp(totalPrice)}
         </p>
@@ -52,7 +52,7 @@ export function DeliveryCard({ delivery }: DeliveryCardProps) {
           {freeGift && (
             <span
               data-testid="free-gift"
-              className="-rotate-6 self-center rounded bg-katkin-pink px-3.5 py-1.5 text-[13px] font-bold uppercase tracking-wider text-katkin-pink-text shadow-md"
+              className="-rotate-6 self-center rounded bg-secondary px-3.5 py-1.5 text-sm font-bold uppercase tracking-wider text-secondary-text shadow-md"
             >
               Free gift
             </span>
