@@ -1,11 +1,11 @@
 @import 'tailwindcss';
 
-/* KatKin brand tokens, exposed as Tailwind utilities (e.g. bg-katkin-green). */
+/* Brand tokens, exposed as Tailwind utilities (e.g. bg-primary). */
 @theme {
-  --color-katkin-green: #00703c;
-  --color-katkin-green-dark: #005a30;
-  --color-katkin-pink: #ff8fc4;
-  --color-katkin-pink-text: #6b1f47;
+  --color-primary: #00703c;
+  --color-primary-dark: #005a30;
+  --color-secondary: #ff8fc4;
+  --color-secondary-text: #6b1f47;
   --color-card-text: #4a4a4a;
 }
 
