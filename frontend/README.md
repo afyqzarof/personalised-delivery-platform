@@ -1,7 +1,7 @@
-# KatKin — Your Next Delivery (frontend)
+# Your Next Delivery (frontend)
 
 React 19 + TypeScript + Vite app that renders a customer's next delivery card at
-`/welcome/:userId`, fetched from the KatKin backend.
+`/welcome/:userId`, fetched from the backend.
 
 ## Getting started
 
@@ -60,10 +60,10 @@ previewing the error UI.
 - `src/pages/WelcomePage.tsx` — wires the route param to the hook and renders
   loading / error / success UI.
 - `src/lib/format.ts` — `£` money formatting helper.
-- `src/index.css` — Tailwind entry + KatKin brand tokens (green / pink) via `@theme`.
+- `src/index.css` — Tailwind entry + brand tokens (primary / secondary) via `@theme`.
 
 Styling uses **Tailwind CSS v4** (via `@tailwindcss/vite`); brand colours are
-exposed as utilities such as `bg-katkin-green` and `text-katkin-pink-text`.
+exposed as utilities such as `bg-primary` and `text-secondary-text`.
 
 ## Notes
 
