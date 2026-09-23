@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
 import { ApiError, fetchDelivery } from '../api/client'
 import type { DeliveryResponse } from '../types/delivery'
 
@@ -7,7 +7,25 @@ export type DeliveryState =
   | { status: 'success'; data: DeliveryResponse; error: null }
   | { status: 'error'; data: null; error: ApiError }
 
-function initialState(userId: string | undefined): DeliveryState {
+/** Don't retry client errors (bad uuid / unknown user) — only transient ones. */
+function shouldRetry(failureCount: number, error: ApiError): boolean {
+  if (error.status === 400 || error.status === 404) return false
+  return failureCount < 2
+}
+
+/**
+ * Fetch the next delivery for a user via TanStack Query, normalised into an
+ * explicit state machine. Caching, request dedup, cancellation and retries are
+ * handled by the query client; a missing userId maps to a 400 error state.
+ */
+export function useDelivery(userId: string | undefined): DeliveryState {
+  const query = useQuery<DeliveryResponse, ApiError>({
+    queryKey: ['delivery', userId],
+    queryFn: ({ signal }) => fetchDelivery(userId as string, signal),
+    enabled: Boolean(userId),
+    retry: shouldRetry,
+  })
+
   if (!userId) {
     return {
       status: 'error',
@@ -15,42 +33,14 @@ function initialState(userId: string | undefined): DeliveryState {
       error: new ApiError(400, 'No user id was provided.'),
     }
   }
-  return { status: 'loading', data: null, error: null }
-}
 
-/**
- * Fetch the next delivery for a user, exposing an explicit state machine.
- * Refetches whenever `userId` changes and aborts in-flight requests on cleanup.
- */
-export function useDelivery(userId: string | undefined): DeliveryState {
-  const [state, setState] = useState<DeliveryState>(() => initialState(userId))
-  const [trackedUserId, setTrackedUserId] = useState(userId)
-
-  // Reset to the initial state during render when the user changes, so we never
-  // show a stale card while the next request is in flight.
-  if (userId !== trackedUserId) {
-    setTrackedUserId(userId)
-    setState(initialState(userId))
+  if (query.status === 'success') {
+    return { status: 'success', data: query.data, error: null }
   }
 
-  useEffect(() => {
-    if (!userId) return
+  if (query.status === 'error') {
+    return { status: 'error', data: null, error: query.error }
+  }
 
-    const controller = new AbortController()
-
-    fetchDelivery(userId, controller.signal)
-      .then((data) => setState({ status: 'success', data, error: null }))
-      .catch((error: unknown) => {
-        if (error instanceof DOMException && error.name === 'AbortError') return
-        const apiError =
-          error instanceof ApiError
-            ? error
-            : new ApiError(0, 'Something went wrong. Please try again.')
-        setState({ status: 'error', data: null, error: apiError })
-      })
-
-    return () => controller.abort()
-  }, [userId])
-
-  return state
+  return { status: 'loading', data: null, error: null }
 }
