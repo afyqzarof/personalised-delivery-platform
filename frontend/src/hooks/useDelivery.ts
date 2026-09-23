@@ -1,18 +1,11 @@
 import { useQuery, type UseQueryResult } from '@tanstack/react-query'
 import { ApiError } from '../api/errors'
-import { fetchMockDelivery } from '../api/mockDelivery'
 import type { DeliveryResponse } from '../types/delivery'
 
 const DEFAULT_BASE_URL = 'http://localhost:3000'
 
 /** Base URL for the backend, overridable via VITE_API_BASE_URL. */
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? DEFAULT_BASE_URL
-
-/**
- * Hit the real backend by default. Set VITE_USE_MOCK_API=true to serve a
- * stubbed response instead (e.g. for offline UI work).
- */
-const USE_MOCK_API = import.meta.env.VITE_USE_MOCK_API === 'true'
 
 /** Don't retry client errors (bad uuid / unknown user) — only transient ones. */
 function shouldRetry(failureCount: number, error: ApiError): boolean {
@@ -36,7 +29,6 @@ export function useDelivery(
     queryKey: ['delivery', userId],
     queryFn: async ({ signal }): Promise<DeliveryResponse> => {
       const id = userId as string
-      if (USE_MOCK_API) return fetchMockDelivery(id, signal)
 
       let response: Response
       try {

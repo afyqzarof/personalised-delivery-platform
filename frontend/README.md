@@ -30,14 +30,9 @@ The API base URL is read from the `VITE_API_BASE_URL` env var and defaults to
 VITE_API_BASE_URL=https://my-backend.example.com
 ```
 
-### Mock mode
-
-The client hits the real backend by default. Set `VITE_USE_MOCK_API=true` to
-serve a **stubbed response** instead, so the page works standalone without the
-backend running. The mock also mirrors the error cases — a malformed uuid
-returns 400, and the all-zero uuid
-(`00000000-0000-0000-0000-000000000000`) returns 404, which is handy for
-previewing the error UI.
+The backend must be running for the app to load a delivery; there is no mock
+mode. A malformed uuid returns 400 and an unknown user returns 404, both of
+which the app renders as a friendly error.
 
 ## Scripts
 
