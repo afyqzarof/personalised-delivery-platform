@@ -1,0 +1,50 @@
+.page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100svh;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+  color: var(--card-text);
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 4px solid rgba(0, 112, 60, 0.2);
+  border-top-color: var(--katkin-green);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.errorTitle {
+  margin: 0;
+  color: var(--katkin-green);
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.errorDetail {
+  margin: 0;
+  font-size: 14px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation: none;
+  }
+}

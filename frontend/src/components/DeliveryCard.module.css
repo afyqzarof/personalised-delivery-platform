@@ -1,0 +1,129 @@
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  background: var(--card-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  text-align: left;
+}
+
+.hero {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+}
+
+.title {
+  margin: 0;
+  color: var(--katkin-green);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.message {
+  margin: 0;
+  color: var(--card-text);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.price {
+  margin: 0;
+  color: var(--card-text);
+  font-size: 15px;
+}
+
+.priceLabel {
+  font-weight: 700;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.button {
+  appearance: none;
+  border: 2px solid var(--katkin-green);
+  border-radius: 6px;
+  padding: 12px 24px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.buttonPrimary {
+  background: var(--katkin-green);
+  color: #ffffff;
+}
+
+.buttonPrimary:hover {
+  background: var(--katkin-green-dark);
+  border-color: var(--katkin-green-dark);
+}
+
+.buttonSecondary {
+  background: transparent;
+  color: var(--katkin-green);
+}
+
+.buttonSecondary:hover {
+  background: rgba(0, 112, 60, 0.06);
+}
+
+.gift {
+  align-self: center;
+  transform: rotate(-8deg);
+  background: var(--katkin-pink);
+  color: var(--katkin-pink-text);
+  padding: 6px 14px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Desktop: hero on the left, content on the right. */
+@media (min-width: 768px) {
+  .card {
+    flex-direction: row;
+    max-width: 900px;
+  }
+
+  .hero {
+    width: 45%;
+    height: auto;
+    align-self: stretch;
+  }
+
+  .body {
+    flex: 1;
+    padding: 32px;
+    justify-content: center;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+}

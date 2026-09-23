@@ -1,0 +1,10 @@
+/* KatKin brand tokens shared across the app. */
+:root {
+  --katkin-green: #00703c;
+  --katkin-green-dark: #005a30;
+  --katkin-pink: #ff8fc4;
+  --katkin-pink-text: #6b1f47;
+  --card-bg: #ffffff;
+  --card-text: #4a4a4a;
+  --card-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
