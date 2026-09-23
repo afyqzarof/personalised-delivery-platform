@@ -6,7 +6,7 @@ interface DeliveryCardProps {
 }
 
 const buttonBase =
-  "rounded-md border-2 border-katkin-green px-6 py-3 text-[13px] font-bold uppercase tracking-wider cursor-pointer";
+  "rounded-md border-2 border-primary px-6 py-3 text-[13px] font-bold uppercase tracking-wider cursor-pointer";
 
 /**
  * Presentational card for a user's next delivery. Purely driven by props —
@@ -25,7 +25,7 @@ export function DeliveryCard({ delivery }: DeliveryCardProps) {
       />
 
       <div className="flex flex-1 flex-col justify-center gap-4 p-6 md:p-8">
-        <h1 className="text-[22px] font-bold leading-tight text-katkin-green md:text-2xl">
+        <h1 className="text-[22px] font-bold leading-tight text-primary md:text-2xl">
           {title}
         </h1>
         <p className="text-[15px] leading-relaxed text-card-text">{message}</p>
@@ -38,13 +38,13 @@ export function DeliveryCard({ delivery }: DeliveryCardProps) {
         <div className="mt-1 flex flex-wrap items-center gap-3">
           <button
             type="button"
-            className={`${buttonBase} bg-katkin-green text-white hover:border-katkin-green-dark hover:bg-katkin-green-dark`}
+            className={`${buttonBase} bg-primary text-white hover:border-primary-dark hover:bg-primary-dark`}
           >
             See details
           </button>
           <button
             type="button"
-            className={`${buttonBase} bg-transparent text-katkin-green hover:bg-katkin-green/5`}
+            className={`${buttonBase} bg-transparent text-primary hover:bg-primary/5`}
           >
             Edit delivery
           </button>

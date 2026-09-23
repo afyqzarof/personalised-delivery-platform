@@ -27,7 +27,7 @@ export function WelcomePage() {
           aria-live="polite"
         >
           <span
-            className="size-9 animate-spin rounded-full border-4 border-katkin-green/20 border-t-katkin-green motion-reduce:animate-none"
+            className="size-9 animate-spin rounded-full border-4 border-primary/20 border-t-primary motion-reduce:animate-none"
             aria-hidden="true"
           />
           <p>Loading your next delivery…</p>
@@ -39,7 +39,7 @@ export function WelcomePage() {
           className="flex flex-col items-center gap-3 text-center text-card-text"
           role="alert"
         >
-          <p className="text-xl font-bold text-katkin-green">
+          <p className="text-xl font-bold text-primary">
             {errorCopy(state.error.status)}
           </p>
           <p className="text-sm">Please check the link or try again later.</p>
