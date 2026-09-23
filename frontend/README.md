@@ -1,78 +1,60 @@
-# React + TypeScript + Vite
+# KatKin — Your Next Delivery (frontend)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React 19 + TypeScript + Vite app that renders a customer's next delivery card at
+`/welcome/:userId`, fetched from the KatKin backend.
 
-Currently, two official plugins are available:
+## Getting started
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
-
-Note: This will impact Vite dev & build performances.
-You can also try [the experimental native React Compiler support in plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md#rust-react-compiler) by using `compiler: true` in the plugin options instead of using the Babel plugin.
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+Then open the printed URL and visit **`/welcome/:userId`**, e.g.
+`http://localhost:5173/welcome/<a-valid-user-uuid>`.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+The app expects the **backend running on `http://localhost:3000`** and calls:
 
 ```
+GET http://localhost:3000/comms/your-next-delivery/:userId
+-> { title, message, totalPrice (pounds), freeGift }
+```
+
+## Configuration
+
+The API base URL is read from the `VITE_API_BASE_URL` env var and defaults to
+`http://localhost:3000`. To point the app at a different backend, create a
+`.env.local` (see `.env.example`):
+
+```bash
+VITE_API_BASE_URL=https://my-backend.example.com
+```
+
+## Scripts
+
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Start the dev server (HMR). |
+| `npm run build` | Type-check and build for production. |
+| `npm run preview` | Preview the production build. |
+| `npm run lint` | Run ESLint. |
+| `npm test` | Run the Vitest unit tests once. |
+| `npm run test:watch` | Run Vitest in watch mode. |
+
+## Structure
+
+- `src/api/client.ts` — typed `fetch` client (base URL from env, `ApiError`).
+- `src/hooks/useDelivery.ts` — data-fetching hook exposing an explicit
+  `{ status: 'loading' | 'error' | 'success', data, error }` state.
+- `src/components/DeliveryCard.tsx` — presentational card (no fetching).
+- `src/pages/WelcomePage.tsx` — wires the route param to the hook and renders
+  loading / error / success UI.
+- `src/lib/format.ts` — `£` money formatting helper.
+- `src/styles/theme.css` — KatKin brand tokens (green / pink).
+
+## Notes
+
+- The **See details** and **Edit delivery** buttons are non-functional
+  placeholders, per the design brief.
+- `404` from the API renders "We couldn't find that account"; `400` renders a
+  bad-link message; other failures render a generic error.
