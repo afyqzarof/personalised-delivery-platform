@@ -9,7 +9,12 @@ const NO_ACTIVE_CATS: User = {
   email: 'sam@example.com',
   cats: [
     { name: 'Milo', subscriptionActive: false, breed: 'Thai', pouchSize: 'C' },
-    { name: 'Nala', subscriptionActive: false, breed: 'Somali', pouchSize: 'F' },
+    {
+      name: 'Nala',
+      subscriptionActive: false,
+      breed: 'Somali',
+      pouchSize: 'F',
+    },
   ],
 };
 
