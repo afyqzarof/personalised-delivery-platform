@@ -47,9 +47,10 @@ which the app renders as a friendly error.
 
 ## Structure
 
-- `src/api/client.ts` — typed `fetch` client (base URL from env, `ApiError`).
-- `src/hooks/useDelivery.ts` — TanStack Query hook (`useQuery`) normalised into
-  an explicit `{ status: 'loading' | 'error' | 'success', data, error }` state;
+- `src/api/errors.ts` — `ApiError` thrown for non-2xx responses (carries the
+  HTTP `status`; `0` when the request never reached the server).
+- `src/hooks/useDelivery.ts` — TanStack Query hook (`useQuery`) that fetches the
+  delivery and returns the query result directly (loading / error / success);
   the `QueryClientProvider` lives in `src/App.tsx`.
 - `src/components/DeliveryCard.tsx` — presentational card (no fetching).
 - `src/pages/WelcomePage.tsx` — wires the route param to the hook and renders
