@@ -3,8 +3,6 @@ import { ApiError } from '../api/errors'
 import type { DeliveryResponse } from '../types/delivery'
 
 const DEFAULT_BASE_URL = 'http://localhost:3000'
-
-/** Base URL for the backend, overridable via VITE_API_BASE_URL. */
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? DEFAULT_BASE_URL
 
 /** Don't retry client errors (bad uuid / unknown user) — only transient ones. */

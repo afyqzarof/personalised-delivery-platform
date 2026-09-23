@@ -2,7 +2,6 @@ import { useParams } from "react-router-dom";
 import { DeliveryCard } from "../components/DeliveryCard";
 import { useDelivery } from "../hooks/useDelivery";
 
-/** Maps an API error status to friendly user-facing copy. */
 function errorCopy(status: number): string {
   switch (status) {
     case 404:
