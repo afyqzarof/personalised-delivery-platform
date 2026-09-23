@@ -10,10 +10,10 @@ const DEFAULT_BASE_URL = 'http://localhost:3000'
 export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? DEFAULT_BASE_URL
 
 /**
- * Until the backend is wired up we serve a stubbed response. Set
- * VITE_USE_MOCK_API=false to hit the real API instead.
+ * Hit the real backend by default. Set VITE_USE_MOCK_API=true to serve a
+ * stubbed response instead (e.g. for offline UI work).
  */
-const USE_MOCK_API = import.meta.env.VITE_USE_MOCK_API !== 'false'
+const USE_MOCK_API = import.meta.env.VITE_USE_MOCK_API === 'true'
 
 /**
  * Fetch a user's next delivery. Throws ApiError on failure.

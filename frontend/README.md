@@ -32,9 +32,9 @@ VITE_API_BASE_URL=https://my-backend.example.com
 
 ### Mock mode
 
-Until the backend is available the client serves a **stubbed response**, so the
-page works standalone. This is on by default; set `VITE_USE_MOCK_API=false` to
-hit the real API. The mock also mirrors the error cases — a malformed uuid
+The client hits the real backend by default. Set `VITE_USE_MOCK_API=true` to
+serve a **stubbed response** instead, so the page works standalone without the
+backend running. The mock also mirrors the error cases — a malformed uuid
 returns 400, and the all-zero uuid
 (`00000000-0000-0000-0000-000000000000`) returns 404, which is handy for
 previewing the error UI.
