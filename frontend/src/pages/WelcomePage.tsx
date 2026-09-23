@@ -1,26 +1,26 @@
-import { useParams } from 'react-router-dom'
-import { DeliveryCard } from '../components/DeliveryCard'
-import { useDelivery } from '../hooks/useDelivery'
+import { useParams } from "react-router-dom";
+import { DeliveryCard } from "../components/DeliveryCard";
+import { useDelivery } from "../hooks/useDelivery";
 
 /** Maps an API error status to friendly user-facing copy. */
 function errorCopy(status: number): string {
   switch (status) {
     case 404:
-      return "We couldn't find that account."
+      return "We couldn't find that account.";
     case 400:
-      return "That account link doesn't look right."
+      return "That account link doesn't look right.";
     default:
-      return 'Something went wrong while loading your delivery.'
+      return "Something went wrong while loading your delivery.";
   }
 }
 
 export function WelcomePage() {
-  const { userId } = useParams<{ userId: string }>()
-  const state = useDelivery(userId)
+  const { userId } = useParams<{ userId: string }>();
+  const state = useDelivery(userId);
 
   return (
-    <main className="flex min-h-[100svh] items-center justify-center p-6">
-      {state.status === 'loading' && (
+    <main className="flex min-h-svh items-center justify-center p-6">
+      {state.status === "loading" && (
         <div
           className="flex flex-col items-center gap-3 text-center text-card-text"
           role="status"
@@ -34,7 +34,7 @@ export function WelcomePage() {
         </div>
       )}
 
-      {state.status === 'error' && (
+      {state.status === "error" && (
         <div
           className="flex flex-col items-center gap-3 text-center text-card-text"
           role="alert"
@@ -46,7 +46,7 @@ export function WelcomePage() {
         </div>
       )}
 
-      {state.status === 'success' && <DeliveryCard delivery={state.data} />}
+      {state.status === "success" && <DeliveryCard delivery={state.data} />}
     </main>
-  )
+  );
 }
